@@ -8,17 +8,17 @@ describe("Block", () => {
 	const hash       = "hash";
 	const lasthash   = "lasthash";
 	const data       = "data";
-	const nonse      = 1;
+	const nonce      = 1;
 	const difficulty = 1;
 
-	const myblock = new Block({timestamp, lasthash, hash, data, nonse, difficulty});
+	const myblock = new Block({timestamp, lasthash, hash, data, nonce, difficulty});
 
 	it("Values are properly set", () => {
 		expect(myblock.timestamp).toEqual(timestamp);
 		expect(myblock.lasthash).toEqual(lasthash);
 		expect(myblock.hash).toEqual(hash);
 		expect(myblock.data).toEqual(data);
-		expect(myblock.nonse).toEqual(nonse);
+		expect(myblock.nonce).toEqual(nonce);
 		expect(myblock.difficulty).toEqual(difficulty);
 	});
 
@@ -56,7 +56,7 @@ describe("Block", () => {
 		});
 
 		it("Sets SHA-256 based on the values given", () => {
-			expect(minedBlock.hash).toEqual(cryptoHash(minedBlock.timestamp, minedBlock.nonse, minedBlock.difficulty, minedBlock.lasthash, data));
+			expect(minedBlock.hash).toEqual(cryptoHash(minedBlock.timestamp, minedBlock.nonce, minedBlock.difficulty, minedBlock.lasthash, data));
 
 		});
 
