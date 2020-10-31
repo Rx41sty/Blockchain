@@ -4,18 +4,22 @@ const cryptoHash = require("./crypto-hash");
 
 describe("Block", () => {
 
-	const timestamp = "01/01/01";
-	const hash      = "hash";
-	const lasthash  = "lasthash";
-	const data      = "data";
+	const timestamp  = "01/01/01";
+	const hash       = "hash";
+	const lasthash   = "lasthash";
+	const data       = "data";
+	const nonse      = 1;
+	const difficulty = 1;
 
-	const myblock = new Block({timestamp, lasthash, hash, data});
+	const myblock = new Block({timestamp, lasthash, hash, data, nonse, difficulty});
 
 	it("Values are properly set", () => {
 		expect(myblock.timestamp).toEqual(timestamp);
 		expect(myblock.lasthash).toEqual(lasthash);
 		expect(myblock.hash).toEqual(hash);
 		expect(myblock.data).toEqual(data);
+		expect(myblock.nonse).toEqual(nonse);
+		expect(myblock.difficulty).toEqual(difficulty);
 	});
 
 	describe("config", () =>{
@@ -52,8 +56,12 @@ describe("Block", () => {
 		});
 
 		it("Sets SHA-256 based on the values given", () => {
-			expect(minedBlock.hash).toEqual(cryptoHash(minedBlock.timestamp, minedBlock.lasthash, data));
+			expect(minedBlock.hash).toEqual(cryptoHash(minedBlock.timestamp, minedBlock.nonse, minedBlock.difficulty, minedBlock.lasthash, data));
 
+		});
+
+		it("Sets hash that matches difficulty criteria", () => {
+			expect(minedBlock.hash.substring(0, minedBlock.difficulty)).toEqual('0'.repeat(minedBlock.difficulty))
 		});
 	});
 

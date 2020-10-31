@@ -3,11 +3,13 @@ const cryptoHash = require("./crypto-hash");
 
 class Block
 {
-  constructor({timestamp, hash, lasthash, data}){
-    this.timestamp = timestamp;
-    this.hash      = hash;
-    this.lasthash  = lasthash;
-    this.data      = data;
+  constructor({timestamp, hash, lasthash, data, nonse, difficulty}){
+    this.timestamp  = timestamp;
+    this.hash       = hash;
+    this.lasthash   = lasthash;
+    this.data       = data;
+  	this.nonse      = nonse;
+  	this.difficulty = difficulty; 
   }
 
   static genesis()
