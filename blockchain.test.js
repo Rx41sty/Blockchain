@@ -1,3 +1,4 @@
+const cryptoHash = require("./crypto-hash");
 const Block = require("./block")
 const Blockchain = require("./blockchain")
 
@@ -67,8 +68,26 @@ describe("blockchain", () => {
 			});
 
 			describe("And the chain doesn't contain any invalid blocks", () => {
-				it ("returns true", () => {
+				it("returns true", () => {
 					expect(Blockchain.isValidChain(blockchain.chain)).toBe(true);
+				});
+			});
+
+			describe("And the difficulty has been modified by user", () => {
+				it("returns false", () => {
+					const lasthash = blockchain.chain[blockchain.chain.length-1].hash;
+					const timestamp = Date.now();
+					const data = [];
+					const nonce = 0;
+					const difficulty = blockchain.chain[blockchain.chain.length-1].difficulty - 3;
+					const hash = cryptoHash({lasthash, timestamp, data, nonce, difficulty});
+
+					const newblock = new Block({timestamp, hash, lasthash, data, nonce, difficulty});
+
+					blockchain.chain.push(newblock);
+
+					expect(Blockchain.isValidChain(blockchain.chain)).toBe(false);
+
 				});
 			});
 		});
