@@ -34,8 +34,6 @@ describe("blockchain", () => {
 
 
 	describe("isValidChain()", () => {
-
-
 		describe("When the chain doesn't start with the genesis block", () => {
 			it("Return false", () => {
 				blockchain.chain[0] = {data: "Modified data"};
