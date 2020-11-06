@@ -12,14 +12,11 @@ class Transaction
         this.input = this.createInput({ senderWallet, amount });
     }
 
-
-
     createOutputMap({ senderWallet, recipient, amount})
     {
         let outputmap = {};
         outputmap[recipient] = amount;
         outputmap[senderWallet.publicKey] = senderWallet.balance - amount;
-
         return outputmap;
     }
 
