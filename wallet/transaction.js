@@ -8,6 +8,8 @@ class Transaction
         this.id = new uuid();
 
         this.outputMap = this.createOutputMap({ senderWallet, recipient, amount});
+
+        this.input = this.createInput({ senderWallet, amount });
     }
 
 
@@ -19,6 +21,17 @@ class Transaction
         outputmap[senderWallet.publicKey] = senderWallet.balance - amount;
 
         return outputmap;
+    }
+
+
+    createInput({ senderWallet, amount })
+    {
+        return {
+            timestamp: Date.now(),
+            amount: senderWallet.balance,
+            address: senderWallet.publicKey,
+            signature: senderWallet.sign(this.outputMap)
+        };
     }
 }
 
