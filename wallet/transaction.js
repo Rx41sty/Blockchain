@@ -1,4 +1,5 @@
 const uuid = require("uuid/v1");
+const { verifySignature } = require("../util");
 
 
 class Transaction
@@ -29,6 +30,24 @@ class Transaction
             address: senderWallet.publicKey,
             signature: senderWallet.sign(this.outputMap)
         };
+    }
+
+    static validateTransaction(transaction)
+    {
+        const { input: { amount, address, signature }, outputMap } = transaction;
+
+        const outputTotal = Object.values(outputMap).reduce((total, outputAmount) => total + outputAmount);
+        
+        if(outputTotal !== amount)
+        {
+            return false;
+        }
+
+        if(!verifySignature({ publicKey: address, data: outputMap, signature }))
+        {
+            return false;
+        }
+        return true;
     }
 }
 
