@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
+    "testone": "jest",
     "start": "node index.js",
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js",
     "dev": "nodemon index.js"

@@ -87,6 +87,37 @@ describe("Transaction", () => {
                 });
             });
         });
+    });
+
+    describe("createTransaction()", () => {
+        let amount, recipient, transaction;
+
+        beforeEach(() => {
+            amount = 50;
+            recipient = "recipientPubKey";
+            transaction = senderWallet.createTransaction({ amount, recipient });
+        });
+
+        describe("When amount exceeds the balance", () => {
+            it("Throws an error", () => {
+                expect(() => senderWallet.createTransaction({ amount: 999999, recipient })).toThrow("Amount exceeds balance");
+            });
+        });
+
+
+        describe("When amount is valid", () => {
+            it("Creates transaction object", () => {
+                expect(transaction instanceof Transaction).toBe(true);
+            });
+
+            it("Matches transaction input with the wallet", () => {
+                expect(transaction.input.address).toEqual(senderWallet.publicKey);
+            });
+
+            it("Outputs the amount of recipient", () => {
+                expect(transaction.outputMap[recipient]).toEqual(amount);
+            });
+        });
 
     });
 

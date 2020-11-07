@@ -1,7 +1,6 @@
 const uuid = require("uuid/v1");
 const { verifySignature } = require("../util");
 
-
 class Transaction
 {
     constructor({ senderWallet, recipient, amount })
