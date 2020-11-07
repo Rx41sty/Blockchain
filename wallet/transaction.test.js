@@ -118,6 +118,42 @@ describe("Transaction", () => {
                 expect(transaction.outputMap[recipient]).toEqual(amount);
             });
         });
+    });
+
+
+    describe("update()", () => {
+        let originalSenderWalletBalance, newRecipient, newAmount, originalSignature;
+
+        
+        beforeEach(() => {
+            newAmount = 70;
+            originalSenderWalletBalance = transaction.outputMap[senderWallet.publicKey];
+            
+            newRecipient = "newRecipientPubKey";
+            originalSignature = transaction.signature;
+
+            transaction.update({ senderWallet, recipient: newRecipient, amount: newAmount });
+        });
+
+        
+
+        it("outputs the amount to the next recipient", () => {
+            expect(transaction.outputMap[newRecipient]).toEqual(newAmount);
+        });
+
+        it("subtract the amount from the original sender output amount", () => {
+            expect(transaction.outputMap[senderWallet.publicKey]).toEqual(originalSenderWalletBalance - newAmount);
+        });
+
+        it("maintains total output that matches the input amount", () => {
+            Object.values(transaction.outputMap).reduce((total, outputAmount) => total + outputAmount);
+            expect(Object.values(transaction.outputMap).reduce((total, outputAmount) => total + outputAmount)).toEqual(transaction.input.amount);
+        });
+
+        it("re-signs the transaction", () => {
+            expect(transaction.input.signature).not.toEqual(transaction.input.signature);
+        });
+
 
     });
 
