@@ -9,7 +9,7 @@ class Transaction
 
         this.outputMap = this.createOutputMap({ senderWallet, recipient, amount});
 
-        this.input = this.createInput({ senderWallet, amount });
+        this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
     }
 
     createOutputMap({ senderWallet, recipient, amount})
@@ -21,13 +21,13 @@ class Transaction
     }
 
 
-    createInput({ senderWallet, amount })
+    createInput({ senderWallet, outputMap })
     {
         return {
             timestamp: Date.now(),
             amount: senderWallet.balance,
             address: senderWallet.publicKey,
-            signature: senderWallet.sign(this.outputMap)
+            signature: senderWallet.sign(outputMap)
         };
     }
 
@@ -56,7 +56,7 @@ class Transaction
 
         this.outputMap[senderWallet.publicKey] = this.outputMap[senderWallet.publicKey] - amount;
 
-
+        this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
     }
 }
 

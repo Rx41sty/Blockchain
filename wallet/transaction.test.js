@@ -146,12 +146,11 @@ describe("Transaction", () => {
         });
 
         it("maintains total output that matches the input amount", () => {
-            Object.values(transaction.outputMap).reduce((total, outputAmount) => total + outputAmount);
             expect(Object.values(transaction.outputMap).reduce((total, outputAmount) => total + outputAmount)).toEqual(transaction.input.amount);
         });
 
         it("re-signs the transaction", () => {
-            expect(transaction.input.signature).not.toEqual(transaction.input.signature);
+            expect(originalSignature).not.toEqual(transaction.input.signature);
         });
 
 
