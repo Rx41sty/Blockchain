@@ -1,11 +1,16 @@
 const express = require('express');
 const request = require('request');
 const Blockchain = require("./blockchain");
-const PubSub = require("app/pubsub");
+const TransactionPool = require("./wallet/transaction-pool");
+const PubSub = require("./app/pubsub");
+const Wallet = require("./wallet");
+const Transaction = require('./wallet/transaction');
 
 const app = express();
 const blockchain = new Blockchain();
 const pubsub = new PubSub(blockchain);
+const transactionPool = new TransactionPool();
+const wallet = new Wallet();
 
 const ROOT_NODE_ADDRESS = "http://localhost:3000";
 
@@ -22,6 +27,17 @@ app.post("/api/mine", (req, res) => {
 	blockchain.addBlock({body});
 
 	res.redirect("/api/blocks");
+});
+
+app.post("/api/transact", (req, res) => {
+	const {recipient, amount} = req.body;
+
+	const transaction = new Transaction({ senderWallet: wallet, recipient, amount });
+	transactionPool.setTransaction(transaction);
+
+	console.log(transactionPool);
+
+	res.json(transactionPool);
 });
 
 
