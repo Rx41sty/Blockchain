@@ -8,9 +8,10 @@ const Transaction = require('./wallet/transaction');
 
 const app = express();
 const blockchain = new Blockchain();
-const pubsub = new PubSub(blockchain);
 const transactionPool = new TransactionPool();
+
 const wallet = new Wallet();
+const pubsub = new PubSub(blockchain, transactionPool);
 
 const ROOT_NODE_ADDRESS = "http://localhost:3000";
 
@@ -46,14 +47,13 @@ app.post("/api/transact", (req, res) => {
 
 	transactionPool.setTransaction(transaction);
 
+	pubsub.broadcastTransaction(transaction);
 
 	res.json({type: 'success', transactionPool });
 });
 
 
 app.get("/api/transaction-pool-map", (req, res) => {
-
-
 	res.json(transactionPool.transactionMap);
 });
 
