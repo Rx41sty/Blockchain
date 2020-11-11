@@ -4,11 +4,12 @@ const Wallet = require("./index");
 
 
 describe("TransactionPool", () => {
-    let transactionPool, transaction;
+    let transactionPool, transaction, senderWallet;
     
 
     beforeEach(() => {
-        transaction = new Transaction({ senderWallet: new Wallet(), recipient: "Fake-recipient", amount: 50 });
+        senderWallet = new Wallet();
+        transaction = new Transaction({ senderWallet, recipient: "Fake-recipient", amount: 50 });
         transactionPool = new TransactionPool();
     });
 
@@ -17,5 +18,11 @@ describe("TransactionPool", () => {
         transactionPool.setTransaction(transaction);
 
         expect(transactionPool.transactionMap[transaction.id]).toBe(transaction);
+    });
+
+    it("existingTransaction()", () => {
+        transactionPool.setTransaction(transaction);
+
+        expect(transactionPool.existingTransaction({ inputAddress: senderWallet.publicKey })).toBe(transaction);
     });
 });
