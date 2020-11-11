@@ -1,3 +1,5 @@
+const Transaction = require("./transaction");
+
 class TransactionPool
 {
     constructor(){
@@ -9,7 +11,6 @@ class TransactionPool
         this.transactionMap[transaction.id] = transaction;
     }
 
-
     setMap(transactionMap){
         this.transactionMap = transactionMap;
     }
@@ -19,6 +20,10 @@ class TransactionPool
         const values = Object.values(this.transactionMap);
 
         return values.find(trans => trans.input.address === inputAddress);
+    }
+
+    validTransactions(){
+        return Object.values(this.transactionMap).filter(transaction => Transaction.validateTransaction(transaction));
     }
 }
 

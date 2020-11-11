@@ -46,6 +46,7 @@ class Transaction
         {
             return false;
         }
+
         return true;
     }
 
@@ -64,9 +65,7 @@ class Transaction
         else
         {
             this.outputMap[recipient] += amount;
-        }
-
-        
+        }        
 
         this.outputMap[senderWallet.publicKey] = this.outputMap[senderWallet.publicKey] - amount;
 
