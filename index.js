@@ -51,6 +51,13 @@ app.post("/api/transact", (req, res) => {
 });
 
 
+app.get("/api/transaction-pool-map", (req, res) => {
+
+
+	res.json(transactionPool.transactionMap);
+});
+
+
 const syncChain = () => {
 	request({url: "http://localhost:3000/api/blocks"}, (error, response, body) => {
 		if(!error && response.statusCode == 200)
