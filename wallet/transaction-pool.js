@@ -9,6 +9,11 @@ class TransactionPool
         this.transactionMap[transaction.id] = transaction;
     }
 
+
+    setMap(transactionMap){
+        this.transactionMap = transactionMap;
+    }
+
     existingTransaction({ inputAddress })
     {
         const values = Object.values(this.transactionMap);

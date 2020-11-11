@@ -72,6 +72,21 @@ const syncChain = () => {
 
 };
 
+const syncTransaction = () => {
+	request({url: "http://localhost:3000/api/transaction-pool-map"}, (error, response, body) => {
+		if(!error && response.statusCode == 200)
+		{
+			const rootTransactionPool = JSON.parse(body);
+
+			console.log("Sync to transaction pool ", rootTransactionPool);
+			
+			transactionPool.setMap(rootTransactionPool);
+		}
+	});
+
+
+};
+
 const DEFAULT_PORT = 3000;
 let ENV_PORT;
 
@@ -87,6 +102,6 @@ app.listen(PORT, () => {
 
 		if(PORT != DEFAULT_PORT)
 		{
-			syncChain();
+			syncTransaction();
 		}
 });
