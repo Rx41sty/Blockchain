@@ -32,12 +32,16 @@ app.post("/api/mine", (req, res) => {
 app.post("/api/transact", (req, res) => {
 	const {recipient, amount} = req.body;
 
-	const transaction = new Transaction({ senderWallet: wallet, recipient, amount });
+	try{
+		const transaction = wallet.createTransaction({ recipient, amount });
+	}catch(error){
+		return res.status(400).json({type: 'error', message: 'Amount exceeds balance'});
+	}
+
 	transactionPool.setTransaction(transaction);
 
-	console.log(transactionPool);
 
-	res.json(transactionPool);
+	res.json({type: 'success', transactionPool });
 });
 
 
