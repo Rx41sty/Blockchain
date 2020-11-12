@@ -30,12 +30,16 @@ class TransactionPool
         return Object.values(this.transactionMap).filter(transaction => Transaction.validateTransaction(transaction));
     }
 
-    clearBlockchainTransactions({ blockchain }){
-        for(let transaction of Object.values(blockchain.chain)){
-            if(this.transactionMap[transaction.data.id]){
-                delete this.transactionMap[transaction.data.id];
+    clearBlockchainTransactions({ chain }){
+        for(let i = 0; i < chain.length; i++){
+            let block = chain[i];
+            for(let transaction of block.data){
+                if(this.transactionMap[transaction.id]){
+                    delete this.transactionMap[transaction.id];
+                }
             }
         }
+
     }
 }
 

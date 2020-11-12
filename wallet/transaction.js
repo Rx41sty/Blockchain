@@ -1,4 +1,4 @@
-const uuid = require("uuid/v1");
+const uuid = require("uuid/v4");
 const { verifySignature } = require("../util");
 const { MINING_REWARD, REWARD_INPUT } = require("../config");
 

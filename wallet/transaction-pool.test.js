@@ -102,7 +102,7 @@ describe("TransactionPool", () => {
                 transactionPool.setTransaction(transaction);
             }
             
-            transactionPool.clearBlockchainTransactions({ blockchain });
+            transactionPool.clearBlockchainTransactions({ chain: blockchain.chain });
 
             expect(transactionPool.transactionMap).toEqual(expectedTransactions);
         });

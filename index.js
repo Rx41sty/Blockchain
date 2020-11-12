@@ -63,7 +63,7 @@ app.get("/api/transaction-pool-map", (req, res) => {
 
 app.get("/api/mine-transactions", (req, res) => {
 	transactionMiner.mineTransactions();
-	
+
 	res.redirect("/api/blocks");
 });
 
@@ -112,6 +112,7 @@ app.listen(PORT, () => {
 
 		if(PORT != DEFAULT_PORT)
 		{
+			syncChain();
 			syncTransaction();
 		}
 });
