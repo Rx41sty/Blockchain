@@ -6,6 +6,10 @@ class TransactionPool
         this.transactionMap = {};
     }
 
+    clear(){
+        this.transactionMap = {};
+    }
+
     setTransaction(transaction)
     {
         this.transactionMap[transaction.id] = transaction;
@@ -24,6 +28,14 @@ class TransactionPool
 
     validTransactions(){
         return Object.values(this.transactionMap).filter(transaction => Transaction.validateTransaction(transaction));
+    }
+
+    clearBlockchainTransactions({ blockchain }){
+        for(let transaction of Object.values(blockchain.chain)){
+            if(this.transactionMap[transaction.data.id]){
+                delete this.transactionMap[transaction.data.id];
+            }
+        }
     }
 }
 

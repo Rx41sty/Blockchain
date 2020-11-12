@@ -1,6 +1,7 @@
 const TransactionPool = require("./transaction-pool");
 const Transaction = require("./transaction");
 const Wallet = require("./index");
+const BlockChain = require("../blockchain");
 const { REWARD_INPUT, MINING_REWARD } = require("../config");
 
 describe("TransactionPool", () => {
@@ -73,11 +74,37 @@ describe("TransactionPool", () => {
         it("Check if input is set", () => {
             expect(newTransaction.input).toEqual(REWARD_INPUT);
         });
+    });
 
+    describe("clear", () => {
+        it("clears the transactionpool", () => {
+            transactionPool.setTransaction(transaction);
+            transactionPool.clear();
+    
+            expect(transactionPool.transactionMap).toEqual({});
+        });
+    });
 
+    describe("clearBlockchainTransactions()", () => {
+        it("Check if transactions get deleted from tarnsactionpool", () => {
+            let expectedTransactions = {};
+            const blockchain = new BlockChain();
 
+            for(let i = 0; i < 6; i++){
+                transaction = new Wallet().createTransaction({ recipient: "fake", amount: 50 });
 
+                if(i % 2 === 0){
+                    blockchain.addBlock({ data: transaction });
+                }else{
+                    expectedTransactions[transaction.id] = transaction;
+                }
 
+                transactionPool.setTransaction(transaction);
+            }
+            
+            transactionPool.clearBlockchainTransactions({ blockchain });
 
+            expect(transactionPool.transactionMap).toEqual(expectedTransactions);
+        });
     });
 });
