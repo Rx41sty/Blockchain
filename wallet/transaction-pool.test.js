@@ -1,7 +1,7 @@
 const TransactionPool = require("./transaction-pool");
 const Transaction = require("./transaction");
 const Wallet = require("./index");
-
+const { REWARD_INPUT, MINING_REWARD } = require("../config");
 
 describe("TransactionPool", () => {
     let transactionPool, transaction, senderWallet;
@@ -51,6 +51,32 @@ describe("TransactionPool", () => {
         it("Returns valid transactions", () => {
             expect(transactionPool.validTransactions()).toEqual(validTransactions);
         });
+    });
+
+    describe("rewardTransaction()", () => {
+        let minerWallet, newTransaction;
+
+        beforeEach(() => {
+            minerWallet = new Wallet();
+            newTransaction = REWARD_INPUT;
+            newTransaction = Transaction.rewardTransaction({ minerWallet });
+        });
+
+        it("Check if transaction was created", () => {
+            expect(newTransaction).toHaveProperty("id");
+        });
+
+        it("Check if transaction was made", () => {
+            expect(newTransaction.outputMap[minerWallet.publicKey]).toEqual(MINING_REWARD);
+        });
+
+        it("Check if input is set", () => {
+            expect(newTransaction.input).toEqual(REWARD_INPUT);
+        });
+
+
+
+
 
 
     });
