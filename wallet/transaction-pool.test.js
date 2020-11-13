@@ -94,7 +94,7 @@ describe("TransactionPool", () => {
                 transaction = new Wallet().createTransaction({ recipient: "fake", amount: 50 });
 
                 if(i % 2 === 0){
-                    blockchain.addBlock({ data: transaction });
+                    blockchain.addBlock({ data: [transaction] });
                 }else{
                     expectedTransactions[transaction.id] = transaction;
                 }
