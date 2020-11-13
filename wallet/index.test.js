@@ -37,6 +37,23 @@ describe("Wallet", () => {
     });
 
 
+    describe("and the chain is passed", () =>{
+        it("It calls Wallet.CalculateBalance", () => {
+            
+            const mockCalculateBalance = jest.fn();
+            const originalCalculateBalance = Wallet.calculateBalance;
+
+            Wallet.calculateBalance = mockCalculateBalance;
+
+
+            new Wallet().createTransaction({ recipient: "ad", amount:50, chain: new BlockChain()})
+
+            expect(mockCalculateBalance).toHaveBeenCalled();
+
+            Wallet.calculateBalance = originalCalculateBalance;
+        });
+    });
+
 
     describe("calculateBalance", () => {
         let blockChain;
