@@ -35,18 +35,26 @@ class Wallet
 
     static calculateBalance({ chain, address }){
         let outputBalance = 0;
+        let inputAddress = false;
+            for(let i = chain.length - 1; i > 0; i--){
+                let block = chain[i];
+                for(let transaction of block.data)
+                {
+                    if(transaction.input.address === address){
+                        inputAddress = true;
+                    }
+                    let outputMapBalance = transaction.outputMap[address];
+                        
+                    if(outputMapBalance){
+                        outputBalance = outputBalance + outputMapBalance;
+                    }
+                }
 
-        for(let i = 1; i < chain.length; i++){
-            let block = chain[i];
-            for(let transaction of block.data)
-            {
-                let outputMapBalance = transaction.outputMap[address];
-                if(outputMapBalance){
-                    outputBalance += outputMapBalance;
+                if(inputAddress){
+                    break;
                 }
             }
-        }
-        return STARTING_BALANCE + outputBalance;
+        return inputAddress ? outputBalance: STARTING_BALANCE + outputBalance;
     }
 }
 

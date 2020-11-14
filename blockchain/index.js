@@ -29,8 +29,6 @@ class Blockchain{
 		}
 
 		this.chain = chain;
-		console.log("CHAIN -> ", chain);
-		console.log("CHAIN[1].data", chain[1].data);
 
 		if(OnSuccess){
 			OnSuccess();
