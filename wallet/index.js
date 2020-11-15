@@ -49,7 +49,6 @@ class Wallet
                         outputBalance = outputBalance + outputMapBalance;
                     }
                 }
-
                 if(inputAddress){
                     break;
                 }

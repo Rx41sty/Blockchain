@@ -1,5 +1,8 @@
 const Block = require("./block")
 const { cryptoHash } = require("../util");
+const { REWARD_INPUT, MINING_REWARD } = require("../config");
+const Transaction = require("../wallet/transaction");
+
 
 class Blockchain{
 
@@ -35,6 +38,31 @@ class Blockchain{
 		} 
 	}
 
+	validTransactionData({ chain }){
+		let rewardCount = 0;
+
+		for(let i = 1; i < chain.length; i++){
+			let block = chain[i];
+
+			for(let transaction of block.data){
+				if(transaction.input.address === REWARD_INPUT.address){
+					rewardCount += 1;
+
+					if(rewardCount > 1){
+						return false;
+					}
+
+					if(Object.values(transaction.outputMap)[0] !== MINING_REWARD){
+						return false;
+					}
+				}else if(!Transaction.validateTransaction(transaction)){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 
 	static isValidChain(chain)
 	{
@@ -42,7 +70,6 @@ class Blockchain{
 		{
 			return false;
 		}
-
 
 		for(let i = 1; i < chain.length; i++)
 		{
@@ -67,8 +94,6 @@ class Blockchain{
 		}
 
 		return true;
-
-
 	}
 
 }

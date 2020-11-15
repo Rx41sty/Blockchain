@@ -170,9 +170,14 @@ describe("blockchain", () => {
 				});
 			});
 
-			describe("transaction is reward tarnsaction", () =>{
+			describe("transaction is reward transaction", () =>{
 				it("return false", () =>{
-				
+					rewardTransaction.outputMap[wallet.publicKey] = 999999;
+					
+					newChain.addBlock({ data: [transaction, rewardTransaction] });
+
+					expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+
 				});
 			});
 		});
