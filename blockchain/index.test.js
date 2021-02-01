@@ -184,12 +184,36 @@ describe("blockchain", () => {
 
 		describe("transaction data has at least one malformed input", () =>{
 			it("return false", () =>{
-				
+
+				let outputMap = {
+					Fake: 100,
+					[wallet.publicKey]: 8900
+				};
+
+				let evilTransaction = {
+					input:{
+						timestamp: Date.now(),
+						amount: 8900,
+						address: wallet.publicKey,
+						signature: wallet.sign(outputMap)
+					},
+					outputMap
+				};
+
+				newChain.addBlock({ data: [evilTransaction, rewardTransaction] });
+
+				expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);				
 			});
 		});
 
-		describe("block contains multiple indentical trasnactions", () =>{
+		describe("block contains multiple indentical transactions", () =>{
+			it("return false", () =>{
+				newChain.addBlock({data: [transaction, transaction, transaction, rewardTransaction]});
 
+				expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+
+
+			});
 		});
 
 
