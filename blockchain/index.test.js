@@ -130,7 +130,7 @@ describe("blockchain", () => {
 
 					expect(blockchain.chain).toEqual(newChain.chain);
 				});
-			}); 
+			});
 		});
 	});
 

@@ -19,11 +19,20 @@ class Blockchain{
 		this.chain.push(newBlock);
 	}
 
-	replaceChain(chain, OnSuccess)
+	replaceChain(chain, validateTransaction, OnSuccess)
 	{
 		if(chain.length <= this.chain.length)
 		{
 			return;
+		}
+
+		if (validateTransaction)
+		{
+		
+			if (!this.validTransactionData({chain}))
+			{
+				return;
+			}	
 		}
 
 		if(!Blockchain.isValidChain(chain))
