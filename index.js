@@ -1,5 +1,6 @@
 const express = require('express');
 const request = require('request');
+const path = require('path');
 const Blockchain = require("./blockchain");
 const TransactionPool = require("./wallet/transaction-pool");
 const PubSub = require("./app/pubsub");
@@ -73,6 +74,9 @@ app.get("/api/wallet-info", (req, res) => {
 	res.json({address, balance: Wallet.calculateBalance({ chain:blockchain.chain, address })})
 });
 
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, './client/index.html'));
+});
 
 
 
