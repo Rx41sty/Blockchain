@@ -3,4 +3,4 @@ import { render } from 'react-dom'
 
 
 
-render(<div>From React</div>, document.getElementById('root'));
+render(<div>Third From React</div>, document.getElementById('root'));
