@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import Transaction from './Transaction'
 
 class Block extends Component
 {
@@ -23,13 +24,22 @@ class Block extends Component
 		{
 			return (
 				<div>
-					<div>Data: {stringifyData}</div>
-					<Button bsStyle="danger"
-							bssize="small"
-							onClick={this.toggleTransaction}
-					>
-					Show More
-					</Button>
+			          {
+			            data.map(transaction => (
+			              <div key={transaction.id}>
+			                <hr />
+			                <Transaction transaction={transaction} />
+			              </div>
+			            ))
+			          }
+			          <br />
+			          <Button
+			            bsStyle="danger"
+			            bsSize="small"
+			            onClick={this.toggleTransaction}
+			          >
+			            Show Less
+			          </Button>
 				</div>
 			)
 		}
