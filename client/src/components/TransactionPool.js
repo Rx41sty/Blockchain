@@ -16,9 +16,17 @@ class TransactionPool extends Component {
       .then(json => this.setState({ transactionPoolMap: json }));
   }
 
-   componentDidMount() {
+  componentDidMount() {
     this.fetchTransactionPoolMap();
 
+    this.fetchPoolMapInterval = setInterval(
+      () => this.fetchTransactionPoolMap(),
+      POLL_INERVAL_MS
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.fetchPoolMapInterval);
   }
 
   render() {
