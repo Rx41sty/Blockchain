@@ -25,6 +25,18 @@ class TransactionPool extends Component {
     );
   }
 
+  fetchMineTransactions = () => {
+    fetch(`${document.location.origin}/api/mine-transactions`)
+      .then(response => {
+        if (response.status === 200) {
+          alert('success');
+          history.push('/blocks');
+        } else {
+          alert('The mine-transactions block request did not complete.');
+        }
+      });
+  }
+
   componentWillUnmount() {
     clearInterval(this.fetchPoolMapInterval);
   }
@@ -44,6 +56,12 @@ class TransactionPool extends Component {
             )
           })
         }
+        <Button
+          bsStyle="danger"
+          onClick={this.fetchMineTransactions}
+        >
+          Mine the Transactions
+        </Button>
         <hr />
 
       </div>
