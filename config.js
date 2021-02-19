@@ -7,7 +7,7 @@ const GENESIS_DATA = {
     lasthash: "LastHash",
     difficulty: INITIAL_DIFFICULTY,
     nonce: 0,
-    data: ["First", "Data"]
+    data: []
 };
 
 const REWARD_INPUT = {address: "*authorized_reward*"};

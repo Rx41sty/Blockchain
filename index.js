@@ -75,6 +75,21 @@ app.get("/api/wallet-info", (req, res) => {
 	res.json({address, balance: Wallet.calculateBalance({ chain:blockchain.chain, address })})
 });
 
+
+
+app.get('/api/known-addresses', (req, res) => {
+  const addressMap = {};
+
+  for (let block of blockchain.chain) {
+    for (let transaction of block.data) {
+      const recipient = Object.keys(transaction.outputMap);
+      recipient.forEach(recipient => addressMap[recipient] = recipient);
+    }
+  }
+
+  res.json(Object.keys(addressMap));
+});
+
 app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 });
@@ -107,38 +122,6 @@ const syncTransaction = () => {
 };
 
 
-
-const walletFoo = new Wallet();
-const walletBar = new Wallet();
-
-const makeTransaction = ({ wallet, recipient, amount}) => {
-
-	const transaction = wallet.createTransaction({ recipient, amount, chain: blockchain.chain });
-
-	transactionPool.setTransaction(transaction);
-};
-
-const walletAction = () => makeTransaction({ wallet, recipient:walletFoo.publicKey, amount: 5 });
-const walletFooAction = () => makeTransaction({ wallet: walletFoo, recipient:walletBar.publicKey, amount: 10 });
-const walletBarAction = () => makeTransaction({ wallet:walletBar, recipient:wallet.publicKey, amount: 15 });
-
-
-for(let i = 0; i < 10; i++){
-	if(i%3 == 0){
-		walletAction();
-		walletFooAction();
-	}
-	else if (i%3 == 1){
-		walletAction();
-		walletBarAction();
-	}
-	else{
-		walletFooAction();
-		walletBarAction();
-	}
-
-	transactionMiner.mineTransactions();
-}
 
 
 
