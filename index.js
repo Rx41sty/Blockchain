@@ -123,6 +123,38 @@ const syncTransaction = () => {
 
 
 
+const walletFoo = new Wallet();
+const walletBar = new Wallet();
+
+const makeTransaction = ({ wallet, recipient, amount}) => {
+
+	const transaction = wallet.createTransaction({ recipient, amount, chain: blockchain.chain });
+
+	transactionPool.setTransaction(transaction);
+};
+
+const walletAction = () => makeTransaction({ wallet, recipient:walletFoo.publicKey, amount: 5 });
+const walletFooAction = () => makeTransaction({ wallet: walletFoo, recipient:walletBar.publicKey, amount: 10 });
+const walletBarAction = () => makeTransaction({ wallet:walletBar, recipient:wallet.publicKey, amount: 15 });
+
+
+for(let i = 0; i < 10; i++){
+	if(i%3 == 0){
+		walletAction();
+		walletFooAction();
+	}
+	else if (i%3 == 1){
+		walletAction();
+		walletBarAction();
+	}
+	else{
+		walletFooAction();
+		walletBarAction();
+	}
+
+	transactionMiner.mineTransactions();
+}
+
 
 
 
