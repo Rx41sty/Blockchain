@@ -11,9 +11,7 @@ class App extends Component
 		fetch(`${document.location.origin}/api/wallet-info`)
 		.then(response => response.json())
 		.then(json => this.setState({ walletInfo : json }));
-		//.then(json => console.log(json)));
 	}
-
 
 	render()
 	{
@@ -35,9 +33,8 @@ class App extends Component
 				</div>
 			<br />
 			</div>
-			);
-	}
-	
+		);
+	}	
 }
 
 

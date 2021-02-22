@@ -11,7 +11,6 @@ class Block extends Component
 	}
 
 	get displayTransaction(){
-
 		const { data } = this.props.block;
 
 		const stringifyData = JSON.stringify(data);
@@ -56,23 +55,22 @@ class Block extends Component
 			</div>
 			)
 	}
+
 	render()
 	{
 		const { timestamp, hash, data } = this.props.block;
 
 		const hashDisplay = `${hash.substr(0, 15)}...`;
 		
-
 		return (
 			<div className="block">
 				<div>Timestamp: { new Date(timestamp).toLocaleString() } </div>
 				<div>Hash: { hashDisplay } </div>
 				{this.displayTransaction}
 			</div>
-			);
+		);
 	}
 	
 }
-
 
 export default Block;
