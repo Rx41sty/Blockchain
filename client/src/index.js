@@ -10,13 +10,13 @@ import transactionPool from './components/TransactionPool';
 import './index.css'
 
 render(
-		<Router history={history}>
-			<Switch>
-				<Route exact path='/' component={App} />
+	<Router history={history}>
+		<Switch>
+			<Route exact path='/' component={App} />
 				<Route path='/blocks' component={Blocks} />
 				<Route path='/conduct-transaction' component={conductTransaction} />
 				<Route path='/transaction-pool' component={transactionPool} />
 			</Switch>
-		</Router>,
-		document.getElementById('root')
-		);
+	</Router>,
+	document.getElementById('root')
+);
