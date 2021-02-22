@@ -34,7 +34,8 @@ class ConductTransaction extends Component {
       });
   }
 
-  render() {
+  render() 
+  {
     return (
       <div className='ConductTransaction'>
         <Link to='/'>Home</Link>

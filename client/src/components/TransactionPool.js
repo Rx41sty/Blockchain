@@ -4,7 +4,6 @@ import Transaction from './Transaction';
 import { Link } from 'react-router-dom';
 import history from '../history';
 
-
 const POLL_INERVAL_MS = 10000;
 
 class TransactionPool extends Component {
@@ -28,10 +27,13 @@ class TransactionPool extends Component {
   fetchMineTransactions = () => {
     fetch(`${document.location.origin}/api/mine-transactions`)
       .then(response => {
-        if (response.status === 200) {
+        if (response.status === 200)
+        {
           alert('success');
           history.push('/blocks');
-        } else {
+        } 
+        else 
+        {
           alert('The mine-transactions block request did not complete.');
         }
       });
